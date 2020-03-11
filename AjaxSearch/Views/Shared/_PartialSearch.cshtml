@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Book>
+
+<div class="search-results">
+    <h3>Все книги автора : @Model.First().Author</h3>
+    <ul>
+        @foreach (var book in Model) {
+            <li>
+                <h5><b>@book.Name</b></h5>
+
+                <form asp-action="Delete" asp-controller="Main" method="post">
+                    <input type="hidden" name="bookId" value="@book.Id" />
+
+                    <div class="text-right">
+                        <a href="@Url.Action("CreateOrUpdate", "Main", new { bookId = book.Id }, null)" class="btn btn-secondary">
+                            <i class="fa fa-pencil-alt"></i>
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fa fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </form>
+            </li>
+        }
+    </ul>
+</div>

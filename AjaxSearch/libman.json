@@ -1,0 +1,50 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    // jquery
+    {
+      "provider": "cdnjs",
+      "library": "jquery@3.4.1",
+      "files": [
+        "jquery.min.js"
+      ],
+      "destination": "wwwroot/lib/jquery/"
+    },
+    // ajax
+    {
+      "provider": "unpkg",
+      "library": "jquery-ajax-unobtrusive@3.2.6",
+      "files": [
+        "dist/jquery.unobtrusive-ajax.min.js"
+      ],
+      "destination": "wwwroot/lib/jquery-ajax-unobtrusive/"
+    },
+    // validation
+    {
+      "provider": "unpkg",
+      "library": "jquery-validation@1.19.1",
+      "files": [
+        "dist/jquery.validate.min.js"
+      ],
+      "destination": "wwwroot/lib/jquery-validation/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "jquery-validation-unobtrusive@3.2.11",
+      "files": [
+        "jquery.validate.unobtrusive.min.js"
+      ],
+      "destination": "wwwroot/lib/jquery-validation-unobtrusive/"
+    },
+    // bootstrap
+    {
+      "provider": "unpkg",
+      "library": "bootstrap@4.4.1",
+      "files": [
+        "dist/css/bootstrap.min.css"
+      ],
+      "destination": "wwwroot/lib/bootstrap/"
+    }
+  ]
+}

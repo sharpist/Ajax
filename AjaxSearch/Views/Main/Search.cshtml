@@ -1,0 +1,80 @@
+﻿@model IEnumerable<String>
+@{
+    ViewData["Title"] = "Catalog";
+}
+
+<div class="search-form">
+    @if (TempData["message"] != null) {
+        <div id="message" role="alert" class="alert-success">@TempData["message"]</div>
+    }
+
+    <!-- Ajax submit form -->
+    <form asp-action="Search" asp-controller="Main" method="post"
+          data-ajax="true" data-ajax-method="post"
+          data-ajax-update="#results" data-ajax-mode="replace"
+          data-ajax-complete="complete">
+
+        <div class="form-group">
+            <label>Поиск по автору</label>
+            <input type="text" name="name" class="form-control" />
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">
+                <i class="fa fa-search"></i> Искать
+            </button>
+            <a asp-action="CreateOrUpdate" class="btn btn-secondary">
+                <i class="fa fa-plus"></i> Добавить
+            </a>
+        </div>
+    </form>
+
+    <!-- updated with the response -->
+    <div id="results"></div>
+
+    <!-- async links -->
+    <div class="tags">
+        @foreach (var author in Model) {
+            <a href="@Url.Action("Search", "Main", new { name = author }, null)">@author</a>
+        }
+    </div>
+
+    <script type="text/javascript">
+        // jQuery Ajax request
+        $(document).ready(function () {
+            $(".tags a").on("click", function (event) {
+                event.preventDefault();
+
+                var path = event.target.href;
+                $.ajax({
+                    type: "POST",
+                    url: path,
+                    data: getURLParameter(path, 'name'),
+                    dataType: "text",
+                    success: function (data) {
+                        $("#results").empty().append(data);
+                    },
+                    error: function (errorThrown) {
+                        console.log(errorThrown);
+                    },
+                    complete: complete
+                });
+            });
+        });
+
+        function getURLParameter(url, param) {
+            let variables = url.substring(url.indexOf('?') + 1).split('&');
+
+            for (let i = 0; i < variables.length; i++) {
+                let paramName = variables[i].split('=');
+                if (paramName[0] == param)
+                    return paramName[1];
+            }
+        };
+
+        // callback
+        function complete() {
+            $("#message").remove();
+        };
+    </script>
+</div>
