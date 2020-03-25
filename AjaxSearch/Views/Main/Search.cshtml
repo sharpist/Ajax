@@ -14,6 +14,9 @@
           data-ajax-update="#results" data-ajax-mode="replace"
           data-ajax-complete="complete">
 
+        <!-- generate antiforgery token -->
+        @Html.AntiForgeryToken()
+
         <div class="form-group">
             <label>Поиск по автору</label>
             <input type="text" name="name" class="form-control" />
@@ -49,7 +52,8 @@
                 $.ajax({
                     type: "POST",
                     url: path,
-                    data: getURLParameter(path, 'name'),
+                    data: $.extend(
+                        getURLParameter(path, 'name'), getSecurityToken()),
                     dataType: "text",
                     success: function (data) {
                         $("#results").empty().append(data);
@@ -70,6 +74,11 @@
                 if (paramName[0] == param)
                     return paramName[1];
             }
+        };
+
+        function getSecurityToken() {
+            var token = $("input[type='hidden'][name$='__RequestVerificationToken']").val();
+            return { '__RequestVerificationToken': token };
         };
 
         // callback
