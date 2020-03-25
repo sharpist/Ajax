@@ -12,11 +12,11 @@ namespace AjaxSearch.Controllers
         public MainController(IBookRepository repository) =>
             this.repository = repository;
 
-
         [HttpGet]
         public async Task<IActionResult> Search() =>
             View(await repository.Books.Select(b => b.Author).Distinct().ToListAsync());
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Search(string name)
         {
             var allbooks = await repository.Books.Where(
@@ -26,7 +26,6 @@ namespace AjaxSearch.Controllers
                 return new NotFoundResult();
             return PartialView("_PartialSearch", allbooks);
         }
-
 
         [HttpGet]
         public async Task<IActionResult> CreateOrUpdate(int bookId = 0)
@@ -47,8 +46,8 @@ namespace AjaxSearch.Controllers
             return View(book);
         }
 
-
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int bookId)
         {
             var deletedBook = await repository.DeleteAsync(bookId);
